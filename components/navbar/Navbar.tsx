@@ -2,7 +2,6 @@ import NavSearch from "./NavSearch";
 import LinksDropdown from "./LinksDropdown";
 import Logo from "./Logo";
 import { DarkMode } from "./DarkMode";
-import { UserIcon } from "lucide-react";
 
 const Navbar = () => {
 	return (
