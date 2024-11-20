@@ -1,7 +1,7 @@
 "use server";
 import db from "@/utils/db";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
-import { imageSchema, profileSchema, validateWithZodSchema } from './schemas';
+import { imageSchema, profileSchema, propertySchema, validateWithZodSchema } from './schemas';
 import { redirect } from "next/navigation";
 import { ZodError } from "zod";
 import { revalidatePath } from "next/cache";
@@ -131,4 +131,25 @@ export const updateProfileImageAction = async (prevState: any, formData: FormDat
     } catch (error) {
         return renderError(error)
     }
+}
+
+export const createPropertyAction = async (prevState: any, formData: FormData): Promise<{message: string}> => {
+    const user = await getAuthUser();
+try {
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(propertySchema, rawData)
+    return {
+        message: "Property created successfully!"
+    }
+    // await db.property.create({
+    //     data: {
+    //         ...validatedFields,
+    //         profileId: user.id,
+            
+    //     }
+    // })
+} catch (error) {
+    return renderError(error)
+}
+    return {message: "Property created successfully!"}
 }
