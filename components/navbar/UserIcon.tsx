@@ -4,19 +4,14 @@ import { LucideUser2 } from "lucide-react";
 import Image from "next/image";
 import { fetchProfileImage } from "@/utils/actions";
 
-
-
 const UserIcon = () => {
 	const [profileImage, setProfileImage] = useState<string | null>(null);
-
 	useEffect(() => {
-
 		const fetchData = async () => {
 			
 			const fetchedImage = await fetchProfileImage();
 			setProfileImage(fetchedImage ?? null);
 		};
-
 		fetchData();
 	}, []);
 
