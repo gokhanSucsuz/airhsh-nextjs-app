@@ -137,19 +137,46 @@ export const createPropertyAction = async (prevState: any, formData: FormData): 
     const user = await getAuthUser();
 try {
     const rawData = Object.fromEntries(formData);
+    const image = formData.get("image") as File;
+    const validatedImage = validateWithZodSchema(imageSchema, { image });
+    const fullPath = await uploadImage(validatedImage.image)
     const validatedFields = validateWithZodSchema(propertySchema, rawData)
-    return {
-        message: "Property created successfully!"
-    }
-    // await db.property.create({
-    //     data: {
-    //         ...validatedFields,
-    //         profileId: user.id,
-            
-    //     }
-    // })
+
+    await db.property.create({
+        data: {
+            ...validatedFields,
+            profileId: user.id,
+            image: fullPath
+        }
+    })
+    return {message: "Property created successfully!"}
 } catch (error) {
+    console.log(error)
     return renderError(error)
 }
-    return {message: "Property created successfully!"}
+    
+}
+
+export const fetchProperties = async ({search="", category}:{search?:string, category?:string}) => {
+    const properties = await db.property.findMany({
+        where: {
+            category,
+            OR: [
+                {name:{contains:search, mode:"insensitive"}},
+                {tagline:{contains:search, mode:"insensitive"}},
+            ]
+       },
+        select: {
+            id: true,
+            name: true,
+            tagline: true,
+            country: true,
+            price: true,
+            image: true
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
+    return properties
 }

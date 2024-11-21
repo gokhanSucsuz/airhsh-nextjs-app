@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: "nddzbywrtjksexatittj.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/**",
+      },{
+        protocol: "https",
+        hostname: "flagcdn.com",
+        port: "",
+        pathname: "/w320/**",
       },
     ]
   }
