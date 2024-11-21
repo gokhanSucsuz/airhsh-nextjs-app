@@ -1,4 +1,3 @@
-import { formattedCountries } from "@/utils/countries";
 import { formatCurrency } from "@/utils/format";
 import { PropertyCardProps } from "@/utils/types";
 import Image from "next/image";
@@ -7,7 +6,6 @@ import React from "react";
 import PropertyRating from "./PropertyRating";
 import FavoriteToggleButton from "./FavoriteToggleButton";
 import CountryFlagAndName from "./CountryFlagAndName";
-import { LoadingCards } from "./LoadingCards";
 
 const PropertyCard = ({ property }: { property: PropertyCardProps }) => {
 	const { name, image, price } = property;

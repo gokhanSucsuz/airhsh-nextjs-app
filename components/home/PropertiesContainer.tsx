@@ -2,6 +2,7 @@ import { fetchProperties } from "@/utils/actions";
 import React from "react";
 import EmptyList from "./EmptyList";
 import PropertiesList from "./PropertiesList";
+import { PropertyCardProps } from "@/utils/types";
 
 const PropertiesContainer = async ({
 	category,
