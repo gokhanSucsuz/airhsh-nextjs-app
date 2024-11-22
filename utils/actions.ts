@@ -1,3 +1,4 @@
+import { Favorite } from './../node_modules/.prisma/client/index.d';
 "use server";
 import db from "@/utils/db";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
@@ -179,4 +180,27 @@ export const fetchProperties = async ({search="", category}:{search?:string, cat
         }
     })
     return properties
+}
+
+export const fetchFavoriteId = async ({ propertyId }: { propertyId: string }) => {
+    const user = await getAuthUser();
+    if (!user) {
+  throw new Error("User not authenticated");
+}
+    const favorite = await db.favorite.findFirst({
+        where: {
+            propertyId,
+            profileId: user.id
+        },
+        select: {
+            id:true,
+        }
+    });
+    return favorite?.id || null
+}
+
+export const toggleFavoriteAction = async () => {
+    return {
+        message:"Favorite toggled successfully!"
+    }
 }

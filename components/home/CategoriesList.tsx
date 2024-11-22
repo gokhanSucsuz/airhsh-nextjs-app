@@ -2,13 +2,15 @@ import { categories } from "@/utils/categories";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import Link from "next/link";
 
-const CategoriesList = async ({
-	category,
-	search
-}: {
-	category?: string;
-	search?: string;
-}) => {
+interface CategoriesListProps {
+	searchParams: {
+		category?: string;
+		search?: string;
+	};
+}
+
+const CategoriesList = async ({ searchParams }: CategoriesListProps) => {
+	const { category, search } = searchParams;
 	const searchTerm = search ? `&search=${search}` : "";
 
 	return (
@@ -24,7 +26,7 @@ const CategoriesList = async ({
 								className="flex items-center gap-x-2 py-2 px-4 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 hover:text-gray-900"
 							>
 								<article
-									className={`p-3 flex flex-col items-center currsor-pointer duration-300 hover:text-primary w-[100px] ${isActive
+									className={`p-3 flex flex-col items-center cursor-pointer duration-300 hover:text-primary w-[100px] ${isActive
 										? "text-primary"
 										: ""}`}
 								>

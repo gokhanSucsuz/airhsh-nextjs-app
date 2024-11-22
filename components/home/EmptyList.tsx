@@ -11,8 +11,7 @@ const EmptyList = ({
 	message?: string;
 	btnText?: string;
 }) => {
-	return (
-		<div className="mt-4">
+	return <div className="mt-4" suppressHydrationWarning>
 			<h2 className="text-xl font-bold">
 				{heading}
 			</h2>
@@ -24,8 +23,7 @@ const EmptyList = ({
 					{btnText}
 				</Link>
 			</Button>
-		</div>
-	);
+		</div>;
 };
 
 export default EmptyList;

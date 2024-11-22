@@ -30,19 +30,12 @@ export default function CountriesInput({
 				</SelectTrigger>
 				<SelectContent>
 					{formattedCountries.map(country => {
-						return (
-							<SelectItem key={country.code} value={country.code}>
+						return <SelectItem key={country.code} value={country.code}>
 								<span className="flex items-center gap-2">
-									<Image
-										src={country.flag}
-										alt={country.name}
-										width={16}
-										height={16}
-									/>
+									<Image src={country.flag} alt={country.name} width={16} height={16} className="h-4 w-4" />
 									{country.name}
 								</span>
-							</SelectItem>
-						);
+							</SelectItem>;
 					})}
 				</SelectContent>
 			</Select>

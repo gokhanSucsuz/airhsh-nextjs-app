@@ -13,6 +13,7 @@ const CountryFlagAndName = ({ countryCode }: { countryCode: string }) => {
 				alt={formattedCountries[Math.floor(Math.random() * 150 + 1)].name}
 				width={16}
 				height={16}
+				className="h-3 w-3"
 			/>
 			<span className="text-sm font-semibold">
 				{countryName}
