@@ -12,8 +12,7 @@ export function LoadingCards() {
 }
 
 export function SkeletonCard() {
-	return (
-		<div className="flex flex-col space-y-3">
+	return <div className="flex flex-col space-y-3">
 			<Skeleton className="h-[300px] w-[250px] rounded-xl" />
 			<div className="space-y-2 w-[250px]">
 				<div className="flex justify-between items-center">
@@ -26,6 +25,5 @@ export function SkeletonCard() {
 					<Skeleton className="h-4 w-[100px]" />
 				</div>
 			</div>
-		</div>
-	);
+		</div>;
 }

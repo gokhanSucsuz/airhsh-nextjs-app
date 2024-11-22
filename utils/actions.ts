@@ -199,8 +199,84 @@ export const fetchFavoriteId = async ({ propertyId }: { propertyId: string }) =>
     return favorite?.id || null
 }
 
-export const toggleFavoriteAction = async () => {
-    return {
-        message:"Favorite toggled successfully!"
+export const toggleFavoriteAction = async (prevState: {
+  propertyId: string;
+  favoriteId: string | null;
+  pathname: string;
+}) => {
+  const user = await getAuthUser();
+  const { propertyId, favoriteId, pathname } = prevState;
+  try {
+    if (favoriteId) {
+      await db.favorite.delete({
+        where: {
+          id: favoriteId,
+        },
+      });
+    } else {
+      await db.favorite.create({
+        data: {
+          propertyId,
+          profileId: user.id,
+        },
+      });
     }
+    revalidatePath(pathname);
+    return { message: favoriteId ? 'Removed from Faves' : 'Added to Faves' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const fetchFavorites = async () => {
+    const user = await getAuthUser()
+
+    const favorites = await db.favorite.findMany({
+        where: {
+            profileId:user.id
+        },
+        select: {
+            property: {
+                select: {
+                    id: true,
+                    name: true,
+                    tagline: true,
+                    country: true,
+                    price: true,
+                    image: true
+                }
+            }
+        }
+    })
+    return favorites.map((favorite)=> favorite.property)
+}
+
+export const fetchPropertyDetail = async (id: string) => {
+    const property = await db.property.findUnique({
+        where: {
+            id:id
+        },
+        include: {
+            profile: true
+        }
+    })
+    return property
+}
+
+export async function formatQuantity (quantity: number, noun: string) {
+    return (quantity === 1) ? `${quantity}${noun}`: `${quantity}${noun}s`
+}
+
+export const fetchPropertyProfile = async (profileId: string) => {
+    const profile = await db.profile.findUnique({
+        where: {
+            clerkId:profileId,
+        }, select: {
+            clerkId:true,
+            firstName: true,
+            profileImage: true,
+            createdAt: true
+        }
+    })
+    return profile
 }

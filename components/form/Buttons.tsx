@@ -5,7 +5,6 @@ import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { SignInButton } from '@clerk/nextjs';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { LuTrash2, LuPenSquare } from 'react-icons/lu';
 import { ImHeart } from 'react-icons/im';
 type btnSize = 'default' | 'lg' | 'sm';
 
@@ -24,7 +23,7 @@ const SubmitButton = ({ className, text = "Submit", size="lg" }: SubmitButtonPro
 			size={size}
 		>
             {pending ? <>
-                
+                <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
                 Please Wait...
             </> : text}
 		</Button>
@@ -33,15 +32,15 @@ const SubmitButton = ({ className, text = "Submit", size="lg" }: SubmitButtonPro
 
 export default SubmitButton;
 
-// export const CardSignInButton = () => {
-// 	return (
-// 			<SignInButton mode="modal">
-// 				<Button variant="outline" className="p-2 cursor-pointer" asChild suppressHydrationWarning>
-// 				<ImHeart size={36} />
-// 				</Button>
-// 			</SignInButton>
-// 	);
-// };
+export const CardSignInButton = () => {
+	return (
+			<SignInButton mode="modal">
+				<Button variant="outline" className="p-2 cursor-pointer" asChild suppressHydrationWarning>
+				<ImHeart size={36} />
+				</Button>
+			</SignInButton>
+	);
+};
 
 export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
   const { pending } = useFormStatus();

@@ -9,7 +9,10 @@ const FormContainer = ({
 	action,
 	children
 }: {
-	action: (prevState: any, formData: FormData) => Promise<{ message: string }>;
+	action: (
+		prevState: string | unknown,
+		formData: FormData
+	) => Promise<{ message: string }>;
 	children: React.ReactNode;
 }) => {
 	const { toast } = useToast();
