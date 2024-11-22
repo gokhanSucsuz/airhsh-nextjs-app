@@ -1,4 +1,3 @@
-import { fetchProfileImage, fetchPropertyProfile } from "@/utils/actions";
 import Image from "next/image";
 import React from "react";
 
@@ -14,7 +13,8 @@ type UserInfoProps = {
 const UserInfo = async ({
 	profile: { profileId, firstName, profileImage, createdAt }
 }: UserInfoProps) => {
-	const profile = await fetchPropertyProfile(profileId);
+	console.log(profileId, createdAt);
+
 	return (
 		<article className="grid grid-cols-[auto,1fr] gap-4 mt-4">
 			<Image

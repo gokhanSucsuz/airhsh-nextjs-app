@@ -12,8 +12,7 @@ import {
 	EmailIcon,
 	EmailShareButton
 } from "react-share";
-import { Facebook, Share2Icon } from "lucide-react";
-import Link from "next/link";
+import { Share2Icon } from "lucide-react";
 
 const ShareButton = ({
 	propertyId,

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Providers from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +35,9 @@ export default function RootLayout({
         
       >
         <Providers>
-          <Navbar />
+            <Suspense fallback={null}>
+                <Navbar />
+            </Suspense>
         <main className="container py-10">
         {children}
         </main>

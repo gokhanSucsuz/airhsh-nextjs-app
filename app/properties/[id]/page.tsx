@@ -1,10 +1,11 @@
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
 import PropertyRating from "@/components/card/PropertyRating";
 import AmenitiesComp from "@/components/properties/AmenitiesComp";
-
 import BookingCalendar from "@/components/properties/BookingCalendar";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import Description from "@/components/properties/Description";
+import DynamicPropertyMaps from "@/components/properties/DynamicPropertyMaps";
+
 import ImageContainer from "@/components/properties/ImageContainer";
 import PropertyDetails from "@/components/properties/PropertyDetails";
 import ShareButton from "@/components/properties/ShareButton";
@@ -12,11 +13,14 @@ import UserInfo from "@/components/properties/UserInfo";
 import { Separator } from "@/components/ui/separator";
 import { fetchPropertyDetail } from "@/utils/actions";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 
-const PropertyDetailsPage = async ({ params }: { params: { id: string } }) => {
+type ParamsType = Promise<{ id: string }>;
+
+async function PropertyDetailsPage({ params }: { params: ParamsType }) {
 	const { id } = await params;
 	const property = await fetchPropertyDetail(id);
+
 	if (!property) redirect("/");
 	const { baths, bedrooms, beds, guests } = property;
 	const details = { baths, bedrooms, beds, guests };
@@ -26,6 +30,7 @@ const PropertyDetailsPage = async ({ params }: { params: { id: string } }) => {
 		profileImage: property.profile.profileImage,
 		createdAt: property.profile.createdAt
 	};
+
 	return (
 		<section>
 			<BreadCrumbs name={property.name} />
@@ -35,7 +40,10 @@ const PropertyDetailsPage = async ({ params }: { params: { id: string } }) => {
 				</h1>
 				<div className="flex items-center gap-x-4">
 					<ShareButton propertyId={property.id} name={property.name} />
-					<FavoriteToggleButton propertyId={property.id} />
+					{/* <FavoriteToggleButton propertyId={property.id} /> */}
+					<Suspense fallback={null}>
+						<FavoriteToggleButton propertyId={property.id} />
+					</Suspense>
 				</div>
 			</header>
 			<ImageContainer mainImage={property.image} name={property.name} />
@@ -45,13 +53,15 @@ const PropertyDetailsPage = async ({ params }: { params: { id: string } }) => {
 						<h1 className="text-xl font-bold">
 							{property.name}
 						</h1>
-						<PropertyRating inPage={true} propertyId={property.id} />
+						<PropertyRating inPage={true} />
 					</div>
 					<PropertyDetails details={details} />
 					<UserInfo profile={profile} />
 					<Separator className="mt-4" />
 					<Description description={property.description} />
 					<AmenitiesComp amenities={property.amenities} />
+					<Separator className="mt-4" />
+					<DynamicPropertyMaps countryCode={property.country} />
 				</div>
 				<div className="lg:col-span-4 flex flex-col items-center">
 					<BookingCalendar />
@@ -59,6 +69,6 @@ const PropertyDetailsPage = async ({ params }: { params: { id: string } }) => {
 			</section>
 		</section>
 	);
-};
+}
 
 export default PropertyDetailsPage;

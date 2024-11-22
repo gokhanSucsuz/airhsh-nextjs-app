@@ -8,7 +8,6 @@ import {
 } from "@/utils/actions";
 import { redirect } from "next/navigation";
 import React from "react";
-import Image from "next/image";
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 
 const ProfilePage = async () => {

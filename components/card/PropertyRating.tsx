@@ -2,10 +2,10 @@ import { Star } from "lucide-react";
 import React from "react";
 
 const PropertyRating = ({
-	propertyId,
+	//propertyId,
 	inPage
 }: {
-	propertyId: string;
+	//propertyId: string;
 	inPage: boolean;
 }) => {
 	const rating = 4.7;

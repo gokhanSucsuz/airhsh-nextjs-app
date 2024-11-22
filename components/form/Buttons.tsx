@@ -36,7 +36,7 @@ export const CardSignInButton = () => {
 	return (
 			<SignInButton mode="modal">
 				<Button variant="outline" className="p-2 cursor-pointer" asChild suppressHydrationWarning>
-				<ImHeart size={36} />
+				<ImHeart color='#f7a295' size={36} />
 				</Button>
 			</SignInButton>
 	);
