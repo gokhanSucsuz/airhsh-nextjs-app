@@ -80,3 +80,11 @@ export const propertySchema = z.object({
 	}),
 	amenities: z.string()
 });
+
+export const reviewSchema = z.object({
+	propertyId: z.string(),
+	rating: z.coerce.number().int(),
+	comment: z
+		.string()
+		.min(2, { message: "Comment must be at least 3 characters." })
+});

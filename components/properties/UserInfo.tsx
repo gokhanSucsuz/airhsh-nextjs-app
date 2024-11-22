@@ -13,8 +13,6 @@ type UserInfoProps = {
 const UserInfo = async ({
 	profile: { profileId, firstName, profileImage, createdAt }
 }: UserInfoProps) => {
-	console.log(profileId, createdAt);
-
 	return (
 		<article className="grid grid-cols-[auto,1fr] gap-4 mt-4">
 			<Image

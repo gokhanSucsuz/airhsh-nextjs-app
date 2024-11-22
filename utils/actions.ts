@@ -1,8 +1,7 @@
-import { Favorite } from './../node_modules/.prisma/client/index.d';
 "use server";
 import db from "@/utils/db";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
-import { imageSchema, profileSchema, propertySchema, validateWithZodSchema } from './schemas';
+import { imageSchema, profileSchema, propertySchema, reviewSchema, validateWithZodSchema } from './schemas';
 import { redirect } from "next/navigation";
 import { ZodError } from "zod";
 import { revalidatePath } from "next/cache";
@@ -257,7 +256,8 @@ export const fetchPropertyDetail = async (id: string) => {
             id:id
         },
         include: {
-            profile: true
+            profile: true,
+            reviews:true,
         }
     })
     return property
@@ -279,4 +279,56 @@ export const fetchPropertyProfile = async (profileId: string) => {
         }
     })
     return profile
+}
+
+export const createReviewAction = async ( prevState: any, formData:FormData) => {
+    const user = await getAuthUser()
+    const rawData = Object.fromEntries(formData);
+    const validateFields = validateWithZodSchema(reviewSchema, rawData)
+    try {
+            const review = await db.review.create({
+        data: {
+            profileId: user.id,
+            ...validateFields
+        }
+            })
+        revalidatePath(`/properties/${validateFields.propertyId}`)
+        return { message: "Review created successfully!" }
+        
+    } catch (error) {
+        return renderError(error)
+    }
+}
+
+export const fetchPropertyReviews = async (propertyId: string) => {
+        const reviews = await db.review.findMany({
+        where: {
+            propertyId
+            },
+            select: {
+                id: true,
+                rating: true,
+                comment: true,
+                profile: {
+                    select: {
+                        firstName: true,
+                        profileImage: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: "desc"
+            }
+    })
+    return reviews
+
+    
+}
+
+export const fetchPropertyReviewsByUser = async () => {
+    return { message: "Propery Reviews belongs to user fetched successfully!"}
+}
+
+export const deleteReviewAction = async () => {
+    return { message: "Review deleted successfully!"}
 }
