@@ -15,17 +15,10 @@ type ReviewType = {
 };
 
 const ReviewCard = ({ reviewInfo, children }: ReviewType) => {
-	return (
-		<Card className="relative ">
+	return <Card className="relative">
 			<CardHeader>
 				<div className="flex items-center gap-4">
-					<Image
-						src={reviewInfo.image}
-						alt="profile"
-						width={64}
-						height={64}
-						className="w-12 h-12 rounded-full"
-					/>
+					<Image src={reviewInfo.image} alt="profile" width={64} height={64} className="w-12 h-12 rounded-full" />
 					<div className="ml-4">
 						<h3 className="text-sm font-bold capitalize">
 							{reviewInfo.name}
@@ -34,14 +27,13 @@ const ReviewCard = ({ reviewInfo, children }: ReviewType) => {
 					</div>
 				</div>
 			</CardHeader>
-			<CardContent className="flex flex-col gap-y-2">
+			<CardContent className="flex flex-col gap-y-2 break-words">
 				<Comment comment={reviewInfo.comment} />
 			</CardContent>
 			<div className="absolute top-3 right-3">
 				{children}
 			</div>
-		</Card>
-	);
+		</Card>;
 };
 
 export default ReviewCard;

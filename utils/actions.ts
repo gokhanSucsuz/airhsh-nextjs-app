@@ -286,7 +286,7 @@ export const createReviewAction = async ( prevState: any, formData:FormData) => 
     const rawData = Object.fromEntries(formData);
     const validateFields = validateWithZodSchema(reviewSchema, rawData)
     try {
-            const review = await db.review.create({
+         await db.review.create({
         data: {
             profileId: user.id,
             ...validateFields
@@ -326,9 +326,78 @@ export const fetchPropertyReviews = async (propertyId: string) => {
 }
 
 export const fetchPropertyReviewsByUser = async () => {
-    return { message: "Propery Reviews belongs to user fetched successfully!"}
+    const user = await getAuthUser();
+    const reviews = await db.review.findMany({
+        where: {
+            profileId:user.id
+        },
+        select: {
+            id: true,
+            rating: true,
+            comment: true,
+            property: {
+                select: {
+                    name: true,
+                    image:true,
+                }
+            },
+            profile: {
+                select: {
+                    firstName: true,
+                    profileImage: true,
+                    createdAt: true
+                }
+            }
+        }
+    })
+    return reviews
 }
 
-export const deleteReviewAction = async () => {
-    return { message: "Review deleted successfully!"}
+
+export const deleteReviewAction = async (prevState: { reviewId: string })=> {
+    const { reviewId } = prevState
+    const user = await getAuthUser();
+    try {
+        await db.review.delete({
+            where: {
+                id: reviewId,
+                profileId: user.id
+            }
+        })
+const response = { message: "Review deleted successfully!" };
+        revalidatePath(`/reviews`)
+        return response
+    } catch (error) {
+        console.error("Delete error:", error);
+        return renderError(error)
+    }
+}
+
+export const fetchPropertyRating = async (propertyId: string) => {
+    const result = await db.review.groupBy({
+        by: ['propertyId'],
+        _avg: {
+            rating: true,
+        },
+        _count: {
+            rating: true,
+        },
+        where: {
+            propertyId,
+        },
+    });
+
+    return {
+        rating: result[0]?._avg?.rating?.toFixed() ?? 0,
+        count: result[0]?._count?.rating ?? 0,
+    };
+};
+
+export const findExistingReview = async(userId:string,propertyId: string) => {
+    return db.review.findFirst({
+        where: {
+            profileId: userId,
+            propertyId
+        }
+    })
 }

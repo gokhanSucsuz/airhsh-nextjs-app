@@ -26,7 +26,7 @@ const FormContainer = ({
 				});
 			}
 		},
-		[state]
+		[state.message]
 	);
 
 	return (
