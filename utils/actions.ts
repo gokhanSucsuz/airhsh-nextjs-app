@@ -1,3 +1,4 @@
+import { Booking } from './../node_modules/.prisma/client/index.d';
 "use server";
 import db from "@/utils/db";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
@@ -250,17 +251,21 @@ export const fetchFavorites = async () => {
     return favorites.map((favorite)=> favorite.property)
 }
 
-export const fetchPropertyDetail = async (id: string) => {
-    const property = await db.property.findUnique({
+export const fetchPropertyDetail = async(id: string) => {
+    return db.property.findUnique({
         where: {
             id:id
         },
         include: {
             profile: true,
-            reviews:true,
+            bookings: {
+                select: {
+                    checkIn: true,
+                    checkOut: true
+                }
+            }
         }
     })
-    return property
 }
 
 export async function formatQuantity (quantity: number, noun: string) {
