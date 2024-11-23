@@ -4,7 +4,7 @@ import AmenitiesComp from "@/components/properties/AmenitiesComp";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import Description from "@/components/properties/Description";
 import DynamicPropertyMaps from "@/components/properties/DynamicPropertyMaps";
-
+import BookingDynamicWrapper from "@/components/booking/BookingDynamicWrapper";
 import ImageContainer from "@/components/properties/ImageContainer";
 import PropertyDetails from "@/components/properties/PropertyDetails";
 import ShareButton from "@/components/properties/ShareButton";
@@ -37,7 +37,7 @@ async function PropertyDetailsPage({ params }: { params: ParamsType }) {
 	const isNotOwner = property.profile.clerkId !== userId;
 
 	const reviewDoesNotExist =
-		userId && isNotOwner && !await findExistingReview(userId, property.id);
+		userId && isNotOwner && (await findExistingReview(userId, property.id));
 
 	return (
 		<section>
@@ -72,7 +72,11 @@ async function PropertyDetailsPage({ params }: { params: ParamsType }) {
 					<DynamicPropertyMaps countryCode={property.country} />
 				</div>
 				<div className="lg:col-span-4 flex flex-col items-center">
-					{/* calendar */}
+					<BookingDynamicWrapper
+						propertyId={property.id}
+						price={property.price}
+						bookings={property.bookings}
+					/>
 				</div>
 			</section>
 			{reviewDoesNotExist && <SubmitReview propertyId={property.id} />}

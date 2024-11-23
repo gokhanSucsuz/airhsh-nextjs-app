@@ -27,7 +27,7 @@ function PropertyMap({ countryCode }: { countryCode: string }) {
       <MapContainer
         scrollWheelZoom={false}
         zoomControl={false}
-        className='w-[300px] h-[200px] md:w-[600px] md:h-[400px] lg:w-[1000px] lg:h-[500px] xl:w-[1200px] xl:h-[600px] rounded'
+        className='w-[300px] h-[250px] md:w-[500px] md:h-[300px] lg:w-[650px] lg:h-[400px] xl:w-[820px] xl:h-[500px] rounded'
         center={location || defaultLocation}
         zoom={7}
       >
