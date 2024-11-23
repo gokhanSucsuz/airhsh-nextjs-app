@@ -10,12 +10,7 @@ type PropertyState = {
 };
 
 const useProperty = create<PropertyState>(() => {
-	return {
-		propertyId: "",
-		price: 0,
-		bookings: [],
-		range: undefined
-	};
+	return { propertyId: "", price: 0, bookings: [], range: undefined };
 });
 
 export default useProperty;
