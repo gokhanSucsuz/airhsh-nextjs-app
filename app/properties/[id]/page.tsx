@@ -36,8 +36,7 @@ async function PropertyDetailsPage({ params }: { params: ParamsType }) {
 	const { userId } = await auth();
 	const isNotOwner = property.profile.clerkId !== userId;
 
-	const reviewDoesNotExist =
-		userId && isNotOwner && (await findExistingReview(userId, property.id));
+	const reviewDoesNotExist = userId && isNotOwner && !await findExistingReview(userId, property.id);
 
 	return (
 		<section>

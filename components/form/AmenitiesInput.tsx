@@ -5,8 +5,11 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 
 const AmenitiesInput = ({ defaultValue }: { defaultValue?: Amenity[] }) => {
+	const amenitiesWithIcons = defaultValue?.map(({name, selected}) => {
+		return {name, selected, icon: amenities.find((amenity) => amenity.name === name)!.icon}
+	})
 	const [selectedAmenities, setSelectedAmenities] = useState<Amenity[]>(
-		defaultValue || amenities
+		amenitiesWithIcons || amenities
 	);
 	const handleChange = (amenity: Amenity) => {
 		setSelectedAmenities(prev =>
@@ -38,8 +41,8 @@ const AmenitiesInput = ({ defaultValue }: { defaultValue?: Amenity[] }) => {
 							htmlFor={amenity.name}
 							className="flex items-center gap-x-2 text-sm font-medium leading-none capitalize"
 						>
-							{amenity.name}
-							{amenity.icon && <amenity.icon />}
+							{amenity.name} {amenity.icon && <amenity.icon className="w-4 h-4" />}
+							
 						</Label>
 					</div>
 				)}
