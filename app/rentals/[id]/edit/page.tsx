@@ -17,8 +17,11 @@ import SubmitButton from "@/components/form/Buttons";
 import AmenitiesInput from "@/components/form/AmenitiesInput";
 import { Amenity } from "@/utils/amenities";
 
-const EditRentalPage = async ({ params }: { params: { id: string } }) => {
-	const property = await fetchRentalDetails(params.id);
+type ParamsType = Promise<{ id: string }>;
+
+const EditRentalPage = async ({ params }: { params: ParamsType }) => {
+	const { id } = await params;
+	const property = await fetchRentalDetails(id);
 	if (!property) redirect("/");
 	const defaultAmenities: Amenity[] = JSON.parse(property.amenities);
 	return (

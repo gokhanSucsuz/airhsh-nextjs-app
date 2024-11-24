@@ -26,19 +26,21 @@ const BookingCalendar = () => {
 
 	useEffect(
 		() => {
-			const selectedRange = generateDateRange(range);
-			const isDisabledDateIncluded = selectedRange.some(date => {
-				if (unavailableDates[date]) {
-					setRange(defaultSelected);
-					toast({
-						description: "Some dates are booked. Please select again!"
-					});
-					return true;
-				}
-				return false;
-			});
-			useProperty.setState({ range });
-		},
+						const selectedRange = generateDateRange(range);
+						// const isDisabledDateIncluded =
+						selectedRange.some(date => {
+							if (unavailableDates[date]) {
+								setRange(defaultSelected);
+								toast({
+									description:
+										"Some dates are booked. Please select again!"
+								});
+								return true;
+							}
+							return false;
+						});
+						useProperty.setState({ range });
+					},
 		[range]
 	);
 

@@ -6,7 +6,6 @@ import { Button } from "../ui/button";
 import FormContainer from "../form/FormContainer";
 import { createBookingAction } from "@/utils/actions";
 import SubmitButton from "../form/Buttons";
-import { create } from "domain";
 
 const ConfirmBooking = () => {
 	const { userId } = useAuth();

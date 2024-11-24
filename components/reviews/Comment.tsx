@@ -1,5 +1,5 @@
 "use client";
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 
 const Comment = ({ comment }: { comment: string }) => {

@@ -12,9 +12,7 @@ import {
 	TableRow
 } from "@/components/ui/table";
 import { deleteBookingAction, fetchBookings } from "@/utils/actions";
-import { findCountryByCode } from "@/utils/countries";
 import { formatCurrency, formatDate } from "@/utils/format";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 

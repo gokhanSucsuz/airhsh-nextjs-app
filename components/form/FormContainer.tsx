@@ -21,9 +21,9 @@ const FormContainer = ({
 	useEffect(
 		() => {
 			if (state.message) {
-				toast({
-					description: state.message
-				});
+				toast({ description: state.message });
+			} else {
+				toast({ description: "Something went wrong" });
 			}
 		},
 		[state.message]
