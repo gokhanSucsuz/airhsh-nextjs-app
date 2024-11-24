@@ -15,9 +15,8 @@ const BookingWrapper = ({
 	bookings
 }: BookingWrapperProps) => {
 	useEffect(() => {
-		console.log(propertyId, price, bookings)
 		useProperty.setState({ propertyId, price, bookings });
-	}, []);
+	}, [propertyId, price, bookings ]);
     return <>
         <BookingCalendar />
         <BookingContainer />

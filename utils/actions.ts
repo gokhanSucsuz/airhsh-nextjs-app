@@ -403,7 +403,7 @@ export const findExistingReview = async(userId:string,propertyId: string) => {
     return db.review.findFirst({
         where: {
             profileId: userId,
-            propertyId
+            propertyId: propertyId
         }
     })
 }

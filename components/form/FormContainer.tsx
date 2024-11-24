@@ -22,11 +22,9 @@ const FormContainer = ({
 		() => {
 			if (state.message) {
 				toast({ description: state.message });
-			} else {
-				toast({ description: "Something went wrong" });
 			}
 		},
-		[state.message]
+		[state.message, toast]
 	);
 
 	return (
