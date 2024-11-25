@@ -1,19 +1,26 @@
 "use client";
-import { useState, useEffect } from "react";
+import {  useEffect, useState } from "react";
 import { LucideUser2 } from "lucide-react";
 import Image from "next/image";
 import { fetchProfileImage } from "@/utils/actions";
+import { useAuth } from "@clerk/nextjs";
+
 
 const UserIcon = () => {
 	const [profileImage, setProfileImage] = useState<string | null>(null);
+	 const { isSignedIn } = useAuth();
 	useEffect(() => {
 		const fetchData = async () => {
-			
 			const fetchedImage = await fetchProfileImage();
 			setProfileImage(fetchedImage ?? null);
 		};
 		fetchData();
-	}, []);
+	}, [profileImage]);
+
+	useEffect(() => {
+		 if(!isSignedIn) setProfileImage(null)
+	},[isSignedIn])
+	
 
 	if (!profileImage)
 		return (

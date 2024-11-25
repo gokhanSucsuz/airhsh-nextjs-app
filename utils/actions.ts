@@ -1,4 +1,3 @@
-import { Booking } from './../node_modules/.prisma/client/index.d';
 "use server";
 import db from "@/utils/db";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
@@ -19,6 +18,7 @@ const getAuthUser = async () => {
 	}
 	return user;
 }
+
 export const createProfileAction = async (
 	prevState: any,
 	formData: FormData

@@ -5,11 +5,8 @@ import React from "react";
 
 const SignOutLink = () => {
 	const { toast } = useToast();
-	const handleLogout = () => {
-		toast({
-			title: "Signout",
-			description: "Signout successfully"
-		});
+	const handleLogout = async () => {
+		toast({ title: "Signout", description: "SignOut successfully" });
 	};
 
 	return (
