@@ -429,7 +429,8 @@ export const createBookingAction = async (prevState: { propertyId: string, check
     if(user.id === propertyProfileId) return { message: "You are own the property!" }
     
     try {
-        const booking = await db.booking.create({
+        
+        await db.booking.create({
             data: {
                 checkIn,
                 checkOut,
@@ -439,11 +440,23 @@ export const createBookingAction = async (prevState: { propertyId: string, check
                 profileId: user.id
             }
         })
-         return { message:"Create Booking"}  
+        revalidatePath("/bookings")
+         return { message:"Booking created successfully!" }  
     } catch (error) {
         return renderError(error)
     }
    
+}
+
+export const fetchExistingBooking = async(propertyId:string, profileId:string, checkIn:Date, checkOut:Date) => {
+    return db.booking.findFirst({
+        where: {
+            propertyId,
+            profileId,
+            checkIn,
+            checkOut
+        }
+    })
 }
 
 export const fetchBookings = async () => {
@@ -459,7 +472,8 @@ export const fetchBookings = async () => {
                     name: true,
                     country:true,
                 }
-            }
+            },
+            
         },
         orderBy: {
             createdAt: "desc"
