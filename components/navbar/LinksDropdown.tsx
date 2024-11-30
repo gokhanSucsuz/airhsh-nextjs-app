@@ -11,11 +11,24 @@ import { LuAlignLeft } from "react-icons/lu";
 import { links } from "@/utils/links";
 import Link from "next/link";
 import { SignedOut, SignInButton } from "@clerk/nextjs";
-import { SignedIn, SignUpButton } from "@clerk/clerk-react";
+import { SignedIn, SignUpButton, useAuth } from "@clerk/clerk-react";
 import SignOutLink from "./SignOutLink";
 import UserIcon from "./UserIcon";
+import { Suspense, useEffect, useState } from "react";
 
 const LinksDropdown = () => {
+	const { userId } = useAuth();
+	const [isAdminUser, setIsAdminUser] = useState(false);
+	const admin = process.env.NEXT_PUBLIC_ADMIN_USER_ID;
+	useEffect(
+		() => {
+			if (userId) {
+				setIsAdminUser(userId === admin);
+			}
+		},
+		[userId]
+	);
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -39,13 +52,18 @@ const LinksDropdown = () => {
 					</DropdownMenuItem>
 				</SignedOut>
 				<SignedIn>
-					{links.map(link =>
-						<DropdownMenuItem key={link.href}>
-							<Link href={link.href} className="capitalize w-full">
-								{link.label}
-							</Link>
-						</DropdownMenuItem>
-					)}
+					{links.map(link => {
+						if (link.label === "admin" && !isAdminUser) return null;
+						return (
+							<Suspense fallback={null} key={link.href}>
+								<DropdownMenuItem key={link.href}>
+									<Link href={link.href} className="capitalize w-full">
+										{link.label}
+									</Link>
+								</DropdownMenuItem>
+							</Suspense>
+						);
+					})}
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
 						<SignOutLink />
