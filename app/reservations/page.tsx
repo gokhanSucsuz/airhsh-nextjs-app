@@ -1,5 +1,6 @@
 import CountryFlagAndName from "@/components/card/CountryFlagAndName";
 import EmptyList from "@/components/home/EmptyList";
+import Stats from "@/components/reservations/Stats";
 import {
 	Table,
 	TableBody,
@@ -19,7 +20,10 @@ const ReservationsPage = async () => {
 	if (reservations.length === 0)
 		return <EmptyList heading="No Reservations Found" />;
 	return (
+		<>
+					<Stats />
 		<div className="mt-16">
+
 			<h4 className="mb-4 capitalize">
 				total reservations : {reservations.length}
 			</h4>
@@ -70,6 +74,7 @@ const ReservationsPage = async () => {
 				</TableBody>
 			</Table>
 		</div>
+		</>
 	);
 };
 

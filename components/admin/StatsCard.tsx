@@ -1,7 +1,16 @@
 import React from "react";
 import { Card, CardHeader } from "../ui/card";
+import { formatCurrency } from "@/utils/format";
 
-const StatsCard = ({ title, value }: { title: string; value: number }) => {
+const StatsCard = ({
+	title,
+	value,
+	money
+}: {
+	title: string;
+	value: number | string;
+	money?: boolean;
+}) => {
 	return (
 		<Card className="bg-muted">
 			<CardHeader className="flex flex-row justify-between items-center">
@@ -9,7 +18,8 @@ const StatsCard = ({ title, value }: { title: string; value: number }) => {
 					{title}
 				</h3>
 				<span className="text-primary text-5xl font-extrabold">
-					{value}
+					{money && formatCurrency(value as number)}
+					{!money && value}
 				</span>
 			</CardHeader>
 		</Card>
