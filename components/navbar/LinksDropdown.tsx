@@ -26,7 +26,7 @@ const LinksDropdown = () => {
 				setIsAdminUser(userId === admin);
 			}
 		},
-		[userId]
+		[userId, admin]
 	);
 
 	return (

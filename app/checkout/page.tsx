@@ -1,34 +1,6 @@
-"use client";
-import axios from "axios";
-import {
-	EmbeddedCheckoutProvider,
-	EmbeddedCheckout
-} from "@stripe/react-stripe-js";
+import DynamicCheckout from "@/components/checkout/DynamicCheckout";
 
-import { loadStripe } from "@stripe/stripe-js";
-import { useCallback } from "react";
-import { useSearchParams } from "next/navigation";
-const stripePromise = await loadStripe(
-	process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
-);
-const CheckoutPage = () => {
-	const searchParams = useSearchParams();
-	const bookingId = searchParams.get("bookingId");
-
-	const fetchClientSecret = useCallback(async () => {
-		const response = await axios.post("/api/payment", { bookingId });
-		return response.data.clientSecret;
-	}, []);
-
-	const options = { fetchClientSecret };
-
-	return (
-		<div id="checkout">
-			<EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-				<EmbeddedCheckout />
-			</EmbeddedCheckoutProvider>
-		</div>
-	);
-};
-
+async function CheckoutPage() {
+	return <DynamicCheckout />;
+}
 export default CheckoutPage;

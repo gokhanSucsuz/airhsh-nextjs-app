@@ -4,7 +4,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 import { NextRequest, NextResponse } from "next/server";
 import { formatDate } from "@/utils/format";
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
 	const requestHeaders = new Headers(req.headers);
 	const origin = requestHeaders.get("origin");
 	const { bookingId } = await req.json();
@@ -58,7 +58,9 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 			mode: "payment",
 			return_url: `${origin}/api/confirm?session_id={CHECKOUT_SESSION_ID}`
 		});
-		return Response.json({ clientSecret: session.client_secret });
+		return Response.json({
+			clientSecret: session.client_secret
+		});
 	} catch (error) {
 		console.log(error);
 		return Response.json(null, {
